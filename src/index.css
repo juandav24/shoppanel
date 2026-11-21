@@ -1,0 +1,30 @@
+body {
+  background-color: #f5f6fa;
+}
+
+.product-card img {
+  height: 200px;
+  object-fit: contain;
+  background-color: #fff;
+  padding: 0.5rem;
+}
+
+.product-card .card-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.order-thumb {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+  background-color: #fff;
+  border-radius: 0.5rem;
+}
+
+.login-card {
+  max-width: 420px;
+  width: 100%;
+}
