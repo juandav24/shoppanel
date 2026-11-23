@@ -28,10 +28,13 @@ export function OrdersProvider({ children }) {
   const storageKey = user ? `shoppanel_orders_${user.id}` : null;
 
   const [orders, setOrders] = useState([]);
+  // Mensaje visible si no se pudieron guardar los pedidos en localStorage.
+  const [storageError, setStorageError] = useState("");
 
   // Cargar los pedidos del usuario actual cuando cambia la sesion.
   useEffect(() => {
     setOrders(storageKey ? readOrders(storageKey) : []);
+    setStorageError("");
   }, [storageKey]);
 
   const persist = (next) => {
@@ -39,8 +42,12 @@ export function OrdersProvider({ children }) {
     if (storageKey) {
       try {
         localStorage.setItem(storageKey, JSON.stringify(next));
+        setStorageError("");
       } catch {
-        // Si el almacenamiento falla, la app sigue funcionando con el estado en memoria.
+        // La app sigue funcionando en memoria, pero se avisa al usuario en la interfaz.
+        setStorageError(
+          "No se pudieron guardar los pedidos en este navegador. Los cambios podrían perderse al recargar la página."
+        );
       }
     }
   };
@@ -73,7 +80,7 @@ export function OrdersProvider({ children }) {
     persist(orders.filter((order) => order.orderId !== orderId));
   };
 
-  const value = { orders, addOrder, updateOrderStatus, removeOrder };
+  const value = { orders, addOrder, updateOrderStatus, removeOrder, storageError };
 
   return (
     <OrdersContext.Provider value={value}>{children}</OrdersContext.Provider>
